@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/marb61a/nodeazon/issues"
   },
-  "homepage": "https://github.com/marb61a/nodeazon"
+  "homepage": "https://github.com/marb61a/nodeazon",
+  "dependencies": {
+    "mongoose": "^4.3.6",
+    "morgan": "^1.6.1"
+  }
 }
