@@ -21,3 +21,6 @@ var UserSchema = new Schema({
     // item: { type: Schema.Types.ObjectId, ref: ''}
   }]
 });
+
+
+module.exports = mongoose.model('User', UserSchema);

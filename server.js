@@ -3,6 +3,7 @@ var morgan = require('morgan');
 var mongoose = require('mongoose');
 var ejs = require('ejs');
 var engine = require('ejs-mate');
+var passport = require('passport');
 
 var app = express();
 
