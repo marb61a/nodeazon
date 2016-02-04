@@ -14,4 +14,23 @@ router.post('/login', passport.authenticate('local-login', {
     failureFlash: true
 }));
 
-module.exports = router
+router.get('/profile', function(req, res, next){
+    User.findOne({ _id: req.user._id }, function(err, user) {
+    if (err) return next(err);
+    res.render('accounts/profile', { user: user });
+  });
+  
+});
+
+router.get('/signup', function(req, res, next) {
+  res.render('accounts/signup', {
+    errors: req.flash('errors')
+  });
+});
+
+router.get('/logout', function(req, res, next) {
+  req.logout();
+  res.redirect('/');
+});
+
+module.exports = router;
