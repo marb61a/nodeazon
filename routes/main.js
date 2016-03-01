@@ -24,7 +24,17 @@ function paginate (req, res, next){
 }
 
 router.get('/', function(req, res, next) {
-  res.render('main/home');
+
+  if (req.user) {
+    paginate(req, res, next);
+  } else {
+    res.render('main/home');
+  }
+
+});
+
+router.get('/page/:page', function(req, res, next) {
+  paginate(req,res,next);
 });
 
 router.get('/about', function(req, res) {
