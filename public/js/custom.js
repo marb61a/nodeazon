@@ -23,9 +23,9 @@ $(function() {
         , position: 'absolute' // Positioning of Element
     };
     
-  $('#search').keyup(function() {
+    $('#search').keyup(function() {
     var search_term = $(this).val();
-
+    
     $.ajax({
         method: 'POST',
         url: '/api/search',
@@ -56,12 +56,12 @@ $(function() {
         }
         
         },
-
+    
         error: function(error) {
             console.log(error);
-      }
+        }
+        });
     });
-  });
   
   $(document).on('click', '#plus', function(e){
         e.preventDefault();
@@ -76,4 +76,23 @@ $(function() {
         $('#total').html(quantity);
   });
   
-})
+ });
+
+  $(document).on('click', '#minus', function(e){
+        e.preventDefault();
+        var priceValue = parseFloat($('#priceValue').val());
+        var quantity = parseInt($('#quantity').val());
+        
+        if(quantity == 1){
+            priceValue = $('#priceHidden').val();
+            quantity = 1;
+        } else{
+            priceValue -= parseFloat($('#priceHidden').val());
+            quantity -= 1;
+        }
+        
+        $('#quantity').val(quantity);
+        $('#priceValue').val(priceValue.toFixed(2));
+        $('#total').html(quantity);
+        
+  })
