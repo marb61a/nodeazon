@@ -1,6 +1,11 @@
 var router = require('express').Router();
 var User = require('../models/user');
 var Product = require('../models/product');
+var Cart = require('../models/cart');
+
+var async = require('async');
+
+var stripe = require('stripe');
 
 function paginate (req, res, next){
   var perPage = 9;
@@ -51,6 +56,18 @@ stream.on('error', function(err) {
 
 router.post('/search', function(req, res, next){
   res.redirect('/search?=' + req.body.q);
+});
+
+router.get('cart', function(req, res, next){
+  Cart.findOne({ owner: req.user._id})
+  .populate('items.item')
+    .exec(function(err, foundCart) {
+      if (err) return next(err);
+      res.render('main/cart', {
+        foundCart: foundCart,
+        message: req.flash('remove')
+      });
+    });
 });
 
 router.get('/search', function(req, res, next){
