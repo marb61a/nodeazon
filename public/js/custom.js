@@ -1,4 +1,5 @@
 $(function() {
+    Stripe.setPublishableKey('');
     
     var opts = {
         lines: 13 // Number of lines to draw
@@ -76,7 +77,6 @@ $(function() {
         $('#total').html(quantity);
   });
   
- });
 
   $(document).on('click', '#minus', function(e){
         e.preventDefault();
@@ -95,4 +95,26 @@ $(function() {
         $('#priceValue').val(priceValue.toFixed(2));
         $('#total').html(quantity);
         
-  })
+  });
+  
+  function stripeResponseHandler(status, response){
+      var $form = $('#payment-form');
+      
+      if(response.error){
+        // Show form errors
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('button').prop('disabled', false);
+      }else{
+        // The response contains both the id and card, which contains additional card details
+        var token = response.id;
+        // Insert the token into the form so that it gets submitted to the server
+        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+        
+        var spinner = new Spinner(opts).spin();
+        $('#loading').append(spinner.el);
+        // and submit
+        $form.get(0).submit();
+      }
+  } 
+  
+});
