@@ -1,5 +1,7 @@
 var router = require("express").Router();
 var User = require("../models/user");
+var Cart = require('../models/cart');
+var async = require('async');
 var passport = require('passport');
 var passportConf = require('../config/passport');
 
@@ -14,7 +16,7 @@ router.post('/login', passport.authenticate('local-login', {
     failureFlash: true
 }));
 
-router.get('/profile', function(req, res, next){
+router.get('/profile', passportConf.isAuthenticated, function(req, res, next){
     User.findOne({ _id: req.user._id }, function(err, user) {
     if (err) return next(err);
     res.render('accounts/profile', { user: user });
